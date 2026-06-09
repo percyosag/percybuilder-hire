@@ -5,8 +5,6 @@ import com.percybuilder.jobportalapi.contact.dto.ContactResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-
 @Service
 @RequiredArgsConstructor
 public class ContactService {
@@ -23,7 +21,7 @@ public class ContactService {
         contact.setMessage(request.message());
         contact.setUserType(request.userType());
         contact.setStatus(NEW_STATUS);
-        contact.setCreatedAt(LocalDateTime.now());
+
 
         Contact savedContact = contactRepository.save(contact);
 
