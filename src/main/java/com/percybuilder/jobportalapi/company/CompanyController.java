@@ -4,6 +4,7 @@ import com.percybuilder.jobportalapi.company.dto.CompanyResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -18,5 +19,10 @@ public class CompanyController {
     public ResponseEntity<List<CompanyResponse>> getAllCompanies() {
         List<CompanyResponse> companies = companyService.getAllCompanies();
         return ResponseEntity.ok(companies);
+    }
+    @GetMapping("/api/v1/companies/{id}")
+    public ResponseEntity<CompanyResponse> getCompanyById(@PathVariable Long id) {
+        CompanyResponse company = companyService.getCompanyById(id);
+        return ResponseEntity.ok(company);
     }
 }

@@ -1,5 +1,6 @@
 package com.percybuilder.jobportalapi.company;
 
+import com.percybuilder.jobportalapi.common.exception.ResourceNotFoundException;
 import com.percybuilder.jobportalapi.company.dto.CompanyJobResponse;
 import com.percybuilder.jobportalapi.company.dto.CompanyResponse;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,13 @@ public class CompanyService {
                 .stream()
                 .map(this::mapToCompanyResponse)
                 .toList();
+    }
+
+    public CompanyResponse getCompanyById(Long id) {
+        Company company = companyRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Company", "id", id));
+
+        return mapToCompanyResponse(company);
     }
 
     private CompanyResponse mapToCompanyResponse(Company company) {

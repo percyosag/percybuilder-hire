@@ -39,6 +39,6 @@ public class Company extends BaseEntity {
     private String description;
 
     private String website;
-    @OneToMany(mappedBy = "company")
+    @OneToMany(mappedBy = "company", cascade=CascadeType.ALL,  fetch = FetchType.LAZY,  orphanRemoval = true)
     private List<Job> jobs = new ArrayList<>();
 }

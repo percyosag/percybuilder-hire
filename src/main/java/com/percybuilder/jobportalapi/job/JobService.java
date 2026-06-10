@@ -1,5 +1,6 @@
 package com.percybuilder.jobportalapi.job;
 
+import com.percybuilder.jobportalapi.common.exception.ResourceNotFoundException;
 import com.percybuilder.jobportalapi.job.dto.JobResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,12 @@ public class JobService {
                 .map(this::mapToJobResponse)
                 .toList();
     }
+    public JobResponse getJobById(Long id) {
+        Job job = jobRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Job", "id", id));
 
+        return mapToJobResponse(job);
+    }
     private JobResponse mapToJobResponse(Job job) {
         return new JobResponse(
                 job.getId(),
