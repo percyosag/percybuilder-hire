@@ -1,14 +1,13 @@
 package com.percybuilder.jobportalapi.company;
 
 import com.percybuilder.jobportalapi.common.entity.BaseEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.percybuilder.jobportalapi.job.Job;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -23,12 +22,23 @@ public class Company extends BaseEntity {
     @Column(nullable = false)
     private String name;
 
+    private String logo;
+
+    @Column(nullable = false)
     private String industry;
+
+    private String companySize;
+
+    private Double rating;
 
     private String location;
 
-    private String website;
+    private Integer foundedYear;
 
     @Column(length = 1000)
     private String description;
+
+    private String website;
+    @OneToMany(mappedBy = "company")
+    private List<Job> jobs = new ArrayList<>();
 }
