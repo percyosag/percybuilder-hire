@@ -5,6 +5,7 @@ import JobsPage from "../pages/JobsPage";
 import CompaniesPage from "../pages/CompaniesPage";
 import ContactPage from "../pages/ContactPage";
 import NotFoundPage from "../pages/NotFoundPage";
+import JobDetailsPage from "../pages/JobDetailsPage";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       <Route element={<AppLayout />}>
         <Route path="/" element={<HomePage />} />
         <Route path="/jobs" element={<JobsPage />} />
+        <Route path="/jobs/:id" element={<JobDetailsPage />} />
         <Route path="/companies" element={<CompaniesPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="*" element={<NotFoundPage />} />

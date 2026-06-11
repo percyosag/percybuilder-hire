@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 function JobCard({ job }) {
   return (
     <article className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
@@ -65,9 +67,16 @@ function JobCard({ job }) {
           {job.salaryMax?.toLocaleString()} / {job.salaryPeriod}
         </p>
 
-        <button className="w-fit rounded-xl bg-slate-950 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800">
+        {/* <button className="w-fit rounded-xl bg-slate-950 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800">
           View Details
-        </button>
+        </button> */}
+
+        <Link
+          to={`/jobs/${job.id}`}
+          className="w-fit rounded-xl bg-slate-950 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800"
+        >
+          View Details
+        </Link>
       </div>
     </article>
   );
