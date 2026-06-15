@@ -1,6 +1,9 @@
 import { Link, useParams } from "react-router-dom";
 import { useGetCompanyByIdQuery } from "../api/companiesApi";
 import JobCard from "../components/jobs/JobCard";
+import ErrorState from "../components/ui/ErrorState";
+import LoadingState from "../components/ui/LoadingState";
+import EmptyState from "../components/ui/EmptyState";
 
 function CompanyDetailsPage() {
   const { id } = useParams();
@@ -14,7 +17,7 @@ function CompanyDetailsPage() {
   if (isLoading) {
     return (
       <section className="mx-auto max-w-6xl px-6 py-12">
-        <p className="text-slate-600">Loading company details...</p>
+        <LoadingState message="Loading company details..." />
       </section>
     );
   }
@@ -29,21 +32,16 @@ function CompanyDetailsPage() {
           ← Back to companies
         </Link>
 
-        <h1 className="mt-6 text-3xl font-bold text-slate-950">
-          Company not found
-        </h1>
-
-        <p className="mt-3 text-red-600">
-          We could not load this company. It may not exist anymore.
-        </p>
-
-        <pre className="mt-4 overflow-auto rounded-xl bg-slate-900 p-4 text-sm text-white">
-          {JSON.stringify(error, null, 2)}
-        </pre>
+        <div className="mt-6">
+          <ErrorState
+            title="Company not found"
+            message="We could not load this company. It may not exist anymore."
+            error={error}
+          />
+        </div>
       </section>
     );
   }
-
   return (
     <section className="mx-auto max-w-6xl px-6 py-12">
       <Link
@@ -136,14 +134,10 @@ function CompanyDetailsPage() {
             ))}
           </div>
         ) : (
-          <div className="rounded-2xl border border-dashed border-slate-300 bg-white p-8 text-center">
-            <h3 className="text-lg font-semibold text-slate-950">
-              No open roles yet
-            </h3>
-            <p className="mt-2 text-sm text-slate-600">
-              This company does not have open roles right now.
-            </p>
-          </div>
+          <EmptyState
+            title="No open roles yet"
+            message="This company does not have open roles right now."
+          />
         )}
       </div>
     </section>
