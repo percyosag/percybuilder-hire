@@ -1,5 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import { useGetJobByIdQuery } from "../api/jobsApi";
+import ErrorState from "../components/ui/ErrorState";
+import LoadingState from "../components/ui/LoadingState";
 
 function JobDetailsPage() {
   const { id } = useParams();
@@ -8,7 +10,7 @@ function JobDetailsPage() {
   if (isLoading) {
     return (
       <section className="mx-auto max-w-5xl px-6 py-12">
-        <p className="text-slate-600">Loading job details...</p>
+        <LoadingState message="Loading job details..." />
       </section>
     );
   }
@@ -23,21 +25,16 @@ function JobDetailsPage() {
           ← Back to jobs
         </Link>
 
-        <h1 className="mt-6 text-3xl font-bold text-slate-950">
-          Job not found
-        </h1>
-
-        <p className="mt-3 text-red-600">
-          We could not load this job. It may not exist anymore.
-        </p>
-
-        <pre className="mt-4 overflow-auto rounded-xl bg-slate-900 p-4 text-sm text-white">
-          {JSON.stringify(error, null, 2)}
-        </pre>
+        <div className="mt-6">
+          <ErrorState
+            title="Job not found"
+            message="We could not load this job. It may not exist anymore."
+            error={error}
+          />
+        </div>
       </section>
     );
   }
-
   return (
     <section className="mx-auto max-w-5xl px-6 py-12">
       <Link
