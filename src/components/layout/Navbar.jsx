@@ -1,16 +1,24 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../features/auth/authSlice";
 
 const navLinks = [
   { label: "Home", path: "/" },
   { label: "Jobs", path: "/jobs" },
   { label: "Companies", path: "/companies" },
   { label: "Contact", path: "/contact" },
-  { label: "Login", path: "/login" },
 ];
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const dispatch = useDispatch();
+
+  const { user, isAuthenticated } = useSelector((state) => state.auth);
+
+  const handleLogout = () => {
+    dispatch(logout());
+  };
 
   const closeMenu = () => {
     setIsMenuOpen(false);
@@ -27,22 +35,52 @@ function Navbar() {
           PercyBuilder <span className="text-blue-600">Hire</span>
         </NavLink>
 
-        <div className="hidden items-center gap-6 md:flex">
+        <div className="hidden items-center gap-8 md:flex">
           {navLinks.map((link) => (
             <NavLink
               key={link.path}
               to={link.path}
               className={({ isActive }) =>
-                `text-sm font-medium transition ${
-                  isActive
-                    ? "text-blue-600"
-                    : "text-slate-600 hover:text-slate-950"
-                }`
+                isActive
+                  ? "text-sm font-semibold text-blue-600"
+                  : "text-sm font-semibold text-slate-700 hover:text-blue-600"
               }
             >
               {link.label}
             </NavLink>
           ))}
+
+          {isAuthenticated ? (
+            <div className="flex items-center gap-3">
+              <span className="max-w-[220px] truncate text-sm font-medium text-slate-600">
+                {user?.username}
+              </span>
+
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="rounded-full border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:border-blue-500 hover:text-blue-600"
+              >
+                Logout
+              </button>
+            </div>
+          ) : (
+            <div className="flex items-center gap-3">
+              <NavLink
+                to="/login"
+                className="rounded-full border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:border-blue-500 hover:text-blue-600"
+              >
+                Login
+              </NavLink>
+
+              <NavLink
+                to="/register"
+                className="rounded-full bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700"
+              >
+                Register
+              </NavLink>
+            </div>
+          )}
         </div>
 
         <button
@@ -75,6 +113,45 @@ function Navbar() {
                 {link.label}
               </NavLink>
             ))}
+
+            <div className="mt-4 border-t border-slate-200 pt-4">
+              {isAuthenticated ? (
+                <div className="grid gap-3">
+                  <p className="truncate px-4 text-sm font-medium text-slate-600">
+                    {user?.username}
+                  </p>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      handleLogout();
+                      closeMenu();
+                    }}
+                    className="rounded-xl border border-slate-300 px-4 py-3 text-left text-sm font-semibold text-slate-700 hover:border-blue-500 hover:text-blue-600"
+                  >
+                    Logout
+                  </button>
+                </div>
+              ) : (
+                <div className="grid gap-3">
+                  <NavLink
+                    to="/login"
+                    onClick={closeMenu}
+                    className="rounded-xl border border-slate-300 px-4 py-3 text-sm font-semibold text-slate-700 hover:border-blue-500 hover:text-blue-600"
+                  >
+                    Login
+                  </NavLink>
+
+                  <NavLink
+                    to="/register"
+                    onClick={closeMenu}
+                    className="rounded-xl bg-blue-600 px-4 py-3 text-sm font-semibold text-white hover:bg-blue-700"
+                  >
+                    Register
+                  </NavLink>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       )}
