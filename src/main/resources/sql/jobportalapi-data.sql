@@ -1,3 +1,13 @@
+INSERT INTO roles (
+    name,
+    created_at,
+    created_by
+)
+VALUES
+    ('ROLE_ADMIN', CURRENT_TIMESTAMP, 'system'),
+    ('ROLE_CANDIDATE', CURRENT_TIMESTAMP, 'system'),
+    ('ROLE_EMPLOYER', CURRENT_TIMESTAMP, 'system');
+
 INSERT INTO companies (
     name,
     logo,
@@ -17,6 +27,53 @@ VALUES
     ('NorthPeak Logistics', 'https://northpeak.example/logo.png', 'Transportation', '501-1000 employees', 4.1, 'Mississauga, Canada', 2012, 'https://northpeak.example', 'Helps companies manage shipping, delivery, and warehouse operations.', CURRENT_TIMESTAMP, 'system'),
     ('BrightPath Finance', 'https://brightpath.example/logo.png', 'Financial Services', '51-200 employees', 4.4, 'Vancouver, Canada', 2019, 'https://brightpath.example', 'Offers financial technology solutions for small businesses.', CURRENT_TIMESTAMP, 'system'),
     ('GreenGrid Energy', 'https://greengrid.example/logo.png', 'Renewable Energy', '201-500 employees', 4.6, 'Calgary, Canada', 2016, 'https://greengrid.example', 'Develops software and systems for renewable energy management.', CURRENT_TIMESTAMP, 'system');
+
+INSERT INTO app_users (
+    full_name,
+    email,
+    password_hash,
+    mobile_number,
+    role_id,
+    company_id,
+    enabled,
+    created_at,
+    created_by
+)
+VALUES
+    (
+        'Admin User',
+        'admin@percybuilderhire.com',
+        '$2a$10$o9Mlx7AEc9kBx1f1jKiUu.E6h2EzLl7NA8SDrix6IjA/lr5RtNfBm',
+
+        '1111111111',
+        1,
+        NULL,
+        true,
+        CURRENT_TIMESTAMP,
+        'system'
+    ),
+    (
+        'Candidate User',
+        'candidate@percybuilderhire.com',
+        '$2a$10$o9Mlx7AEc9kBx1f1jKiUu.E6h2EzLl7NA8SDrix6IjA/lr5RtNfBm',
+        '2222222222',
+        2,
+        NULL,
+        true,
+        CURRENT_TIMESTAMP,
+        'system'
+    ),
+    (
+        'Employer User',
+        'employer@percybuilderhire.com',
+        '$2a$10$o9Mlx7AEc9kBx1f1jKiUu.E6h2EzLl7NA8SDrix6IjA/lr5RtNfBm',
+        '3333333333',
+        3,
+        1,
+        true,
+        CURRENT_TIMESTAMP,
+        'system'
+    );
 
 INSERT INTO jobs (
     title,

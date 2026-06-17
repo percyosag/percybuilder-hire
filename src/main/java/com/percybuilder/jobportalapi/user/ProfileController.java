@@ -17,6 +17,7 @@ public class ProfileController {
         List<String> roles = authentication.getAuthorities()
                 .stream()
                 .map(GrantedAuthority::getAuthority)
+                .filter(authority -> authority.startsWith("ROLE_"))
                 .toList();
 
         Map<String, Object> response = Map.of(
