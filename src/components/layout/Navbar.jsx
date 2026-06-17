@@ -6,6 +6,7 @@ const navLinks = [
   { label: "Jobs", path: "/jobs" },
   { label: "Companies", path: "/companies" },
   { label: "Contact", path: "/contact" },
+  { label: "Login", path: "/login" },
 ];
 
 function Navbar() {
