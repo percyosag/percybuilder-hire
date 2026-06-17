@@ -17,7 +17,10 @@ public record RegisterRequest(
         @Size(min = 8, message = "Password must be at least 8 characters")
         String password,
 
-        @Pattern(regexp = "^[0-9]{10,15}$", message = "Mobile number must contain 10 to 15 digits")
+        @Pattern(
+                regexp = "^\\+?[0-9]{10,15}$",
+                message = "Mobile number must contain 10 to 15 digits and may start with + for country code"
+        )
         String mobileNumber,
 
         @NotBlank(message = "Role is required")
