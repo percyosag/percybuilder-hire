@@ -8,6 +8,7 @@ import NotFoundPage from "../pages/NotFoundPage";
 import JobDetailsPage from "../pages/JobDetailsPage";
 import CompanyDetailsPage from "../pages/CompanyDetailsPage";
 import LoginPage from "../pages/LoginPage";
+import RegisterPage from "../pages/RegisterPage";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/companies" element={<CompaniesPage />} />
         <Route path="/companies/:id" element={<CompanyDetailsPage />} />
         <Route path="/contact" element={<ContactPage />} />
+        <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>
