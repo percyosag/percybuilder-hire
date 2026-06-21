@@ -8,6 +8,7 @@ import com.percybuilder.jobportalapi.security.JwtService;
 import com.percybuilder.jobportalapi.user.dto.UserResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 public class AuthController {
@@ -36,6 +37,8 @@ public class AuthController {
 
     @PostMapping("/api/v1/auth/login")
     public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest request) {
+        log.info("Login attempt started for username: {}", request.username());
+
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.username(),
@@ -50,6 +53,11 @@ public class AuthController {
                 .map(GrantedAuthority::getAuthority)
                 .filter(authority -> authority.startsWith("ROLE_"))
                 .toList();
+
+        log.info("Login successful for username: {} with roles: {}",
+                authentication.getName(),
+                roles
+        );
 
         AuthUserResponse user = new AuthUserResponse(
                 authentication.getName(),

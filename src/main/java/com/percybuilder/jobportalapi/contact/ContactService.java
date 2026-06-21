@@ -3,8 +3,9 @@ package com.percybuilder.jobportalapi.contact;
 import com.percybuilder.jobportalapi.contact.dto.ContactRequest;
 import com.percybuilder.jobportalapi.contact.dto.ContactResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ContactService {
@@ -14,6 +15,8 @@ public class ContactService {
     private final ContactRepository contactRepository;
 
     public ContactResponse saveContact(ContactRequest request) {
+        log.info("Contact message submission started for email: {}", request.email());
+        log.debug("Contact message subject: {}", request.subject());
         Contact contact = new Contact();
         contact.setName(request.name());
         contact.setEmail(request.email());
@@ -24,7 +27,10 @@ public class ContactService {
 
 
         Contact savedContact = contactRepository.save(contact);
-
+        log.info("Contact message saved with id: {} and status: {}",
+                savedContact.getId(),
+                savedContact.getStatus()
+        );
         return mapToContactResponse(savedContact);
     }
 
