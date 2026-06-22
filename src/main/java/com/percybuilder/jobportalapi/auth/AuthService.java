@@ -1,6 +1,7 @@
 package com.percybuilder.jobportalapi.auth;
 
 import com.percybuilder.jobportalapi.auth.dto.RegisterRequest;
+import com.percybuilder.jobportalapi.common.annotation.LogExecution;
 import com.percybuilder.jobportalapi.common.exception.ResourceNotFoundException;
 import com.percybuilder.jobportalapi.user.Role;
 import com.percybuilder.jobportalapi.user.RoleRepository;
@@ -27,7 +28,7 @@ public class AuthService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
-
+    @LogExecution
     public UserResponse register(RegisterRequest request) {
         String normalizedEmail = request.email().trim().toLowerCase();
         String requestedRole = request.role().trim().toUpperCase();

@@ -1,5 +1,6 @@
 package com.percybuilder.jobportalapi.job;
 
+import com.percybuilder.jobportalapi.common.annotation.LogExecution;
 import com.percybuilder.jobportalapi.common.exception.ResourceNotFoundException;
 import com.percybuilder.jobportalapi.job.dto.JobResponse;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +14,7 @@ import java.util.List;
 public class JobService {
 
     private final JobRepository jobRepository;
-
+    @LogExecution
     public List<JobResponse> getAllJobs() {
         log.debug("Fetching all jobs");
         List<JobResponse> jobs = jobRepository.findAll()
@@ -23,6 +24,7 @@ public class JobService {
         log.info("Fetched {} jobs", jobs.size());
         return jobs;
     }
+    @LogExecution
     public JobResponse getJobById(Long id) {
         log.debug("Fetching job by id: {}", id);
 

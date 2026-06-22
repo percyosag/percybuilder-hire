@@ -1,5 +1,6 @@
 package com.percybuilder.jobportalapi.contact;
 
+import com.percybuilder.jobportalapi.common.annotation.LogExecution;
 import com.percybuilder.jobportalapi.contact.dto.ContactRequest;
 import com.percybuilder.jobportalapi.contact.dto.ContactResponse;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +14,7 @@ public class ContactService {
     private static final String NEW_STATUS = "NEW";
 
     private final ContactRepository contactRepository;
-
+    @LogExecution
     public ContactResponse saveContact(ContactRequest request) {
         log.info("Contact message submission started for email: {}", request.email());
         log.debug("Contact message subject: {}", request.subject());

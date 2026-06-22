@@ -1,5 +1,6 @@
 package com.percybuilder.jobportalapi.company;
 
+import com.percybuilder.jobportalapi.common.annotation.LogExecution;
 import com.percybuilder.jobportalapi.common.exception.ResourceNotFoundException;
 import com.percybuilder.jobportalapi.company.dto.CompanyJobResponse;
 import com.percybuilder.jobportalapi.company.dto.CompanyResponse;
@@ -15,14 +16,14 @@ public class CompanyService {
     public CompanyService(CompanyRepository companyRepository) {
         this.companyRepository = companyRepository;
     }
-
+    @LogExecution
     public List<CompanyResponse> getAllCompanies() {
         return companyRepository.findAll()
                 .stream()
                 .map(this::mapToCompanyResponse)
                 .toList();
     }
-
+    @LogExecution
     public CompanyResponse getCompanyById(Long id) {
         Company company = companyRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Company", "id", id));
