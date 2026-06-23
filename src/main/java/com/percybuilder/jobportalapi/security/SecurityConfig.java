@@ -30,7 +30,8 @@ public class SecurityConfig {
                     .authorizeHttpRequests(auth -> auth
                             .requestMatchers(SecurityPaths.PUBLIC_ENDPOINTS).permitAll()
                             .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                            .anyRequest().authenticated()
+                            .requestMatchers(SecurityPaths.PROTECTED_ENDPOINTS).authenticated()
+                            .anyRequest().denyAll()
                     )
                     .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
