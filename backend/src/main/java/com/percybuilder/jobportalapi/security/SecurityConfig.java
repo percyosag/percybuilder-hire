@@ -30,6 +30,7 @@ public class SecurityConfig {
                     .authorizeHttpRequests(auth -> auth
                             .requestMatchers(SecurityPaths.PUBLIC_ENDPOINTS).permitAll()
                             .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                            .requestMatchers(SecurityPaths.ADMIN_ENDPOINTS).hasRole("ADMIN")
                             .requestMatchers(SecurityPaths.PROTECTED_ENDPOINTS).authenticated()
                             .anyRequest().denyAll()
                     )

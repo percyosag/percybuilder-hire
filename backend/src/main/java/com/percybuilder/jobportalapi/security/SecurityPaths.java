@@ -22,7 +22,9 @@ public final class SecurityPaths {
             "/swagger-resources/**",
 
     };
-
+    public static final String[] ADMIN_ENDPOINTS = {
+            ApiPaths.CONTACTS + "/admin/**"
+    };
     public static final String[] PROTECTED_ENDPOINTS = {
             ApiPaths.PROFILE + "/**"
     };

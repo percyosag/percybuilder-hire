@@ -4,7 +4,8 @@ public final class AppConstants {
 
     private AppConstants() {
     }
-
+    public static final String NEW_CONTACT_STATUS = "NEW";
+    public static final String CLOSED_CONTACT_STATUS = "CLOSED";
     public static final String JWT_SECRET_KEY = "JWT_SECRET";
     public static final String JWT_SECRET_DEFAULT_VALUE =
             "PercyBuilderHireJwtSecretKeyForDevelopmentOnlyMustBeLongEnoughForHS256";
