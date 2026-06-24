@@ -1,29 +1,29 @@
-
 package com.percybuilder.jobportalapi.security;
+
+import com.percybuilder.jobportalapi.common.constants.ApiPaths;
 
 public final class SecurityPaths {
 
     private SecurityPaths() {
     }
 
-    public static final String API_V1 = "/api/v1";
-
     public static final String[] PUBLIC_ENDPOINTS = {
-            API_V1 + "/info",
-            API_V1 + "/auth/**",
-            API_V1 + "/companies/**",
-            API_V1 + "/jobs/**",
-            API_V1 + "/contacts",
+            ApiPaths.INFO,
+            ApiPaths.AUTH + "/**",
+            ApiPaths.COMPANIES + "/**",
+            ApiPaths.JOBS + "/**",
+            ApiPaths.CONTACTS,
             "/swagger-ui/**",
             "/swagger-ui.html",
             "/v3/api-docs/**",
             "/h2-console/**",
+            "/error",
             "/webjars/**",
             "/swagger-resources/**",
-            "/error"
+
     };
 
     public static final String[] PROTECTED_ENDPOINTS = {
-            API_V1 + "/profile/**"
+            ApiPaths.PROFILE + "/**"
     };
 }

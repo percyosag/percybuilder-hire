@@ -30,6 +30,13 @@ public class CompanyService {
 
         return mapToCompanyResponse(company);
     }
+    @LogExecution
+    public List<CompanyResponse> getCompaniesByJobStatus(String status) {
+        return companyRepository.findCompaniesWithJobsByStatus(status)
+                .stream()
+                .map(this::mapToCompanyResponse)
+                .toList();
+    }
 
     private CompanyResponse mapToCompanyResponse(Company company) {
         return new CompanyResponse(
