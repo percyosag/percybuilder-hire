@@ -28,9 +28,9 @@ public class SecurityConfig {
                     .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                     .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.sameOrigin()))
                     .authorizeHttpRequests(auth -> auth
-                            .requestMatchers(SecurityPaths.PUBLIC_ENDPOINTS).permitAll()
                             .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                             .requestMatchers(SecurityPaths.ADMIN_ENDPOINTS).hasRole("ADMIN")
+                            .requestMatchers(SecurityPaths.PUBLIC_ENDPOINTS).permitAll()
                             .requestMatchers(SecurityPaths.PROTECTED_ENDPOINTS).authenticated()
                             .anyRequest().denyAll()
                     )
