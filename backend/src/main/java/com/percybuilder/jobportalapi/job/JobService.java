@@ -1,13 +1,15 @@
 package com.percybuilder.jobportalapi.job;
 
 import com.percybuilder.jobportalapi.common.annotation.LogExecution;
+import com.percybuilder.jobportalapi.common.constants.CacheNames;
 import com.percybuilder.jobportalapi.common.exception.ResourceNotFoundException;
 import com.percybuilder.jobportalapi.job.dto.JobResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
+import org.springframework.cache.annotation.Cacheable;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -15,6 +17,7 @@ public class JobService {
 
     private final JobRepository jobRepository;
     @LogExecution
+    @Cacheable(value = CacheNames.JOBS, key = "'public'")
     public List<JobResponse> getAllJobs() {
         log.debug("Fetching all jobs");
         List<JobResponse> jobs = jobRepository.findAll()
@@ -25,6 +28,7 @@ public class JobService {
         return jobs;
     }
     @LogExecution
+    @Cacheable(value = CacheNames.JOBS, key = "'id-' + #id")
     public JobResponse getJobById(Long id) {
         log.debug("Fetching job by id: {}", id);
 

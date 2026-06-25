@@ -1,12 +1,15 @@
 package com.percybuilder.jobportalapi.company;
 
 import com.percybuilder.jobportalapi.common.annotation.LogExecution;
+import com.percybuilder.jobportalapi.common.constants.CacheNames;
 import com.percybuilder.jobportalapi.common.exception.ResourceNotFoundException;
 import com.percybuilder.jobportalapi.company.dto.CompanyJobResponse;
 import com.percybuilder.jobportalapi.company.dto.CompanyRequest;
 import com.percybuilder.jobportalapi.company.dto.CompanyResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 
 import java.util.List;
 
@@ -20,6 +23,7 @@ public class CompanyService {
         this.companyRepository = companyRepository;
     }
     @LogExecution
+    @Cacheable(value = CacheNames.COMPANIES, key = "'public'")
     public List<CompanyResponse> getAllCompanies() {
         return companyRepository.findAll()
                 .stream()
@@ -27,6 +31,7 @@ public class CompanyService {
                 .toList();
     }
     @LogExecution
+    @Cacheable(value = CacheNames.COMPANIES, key = "'id-' + #id")
     public CompanyResponse getCompanyById(Long id) {
         Company company = companyRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Company", "id", id));
@@ -34,6 +39,7 @@ public class CompanyService {
         return mapToCompanyResponse(company);
     }
     @LogExecution
+    @Cacheable(value = CacheNames.COMPANIES, key = "'job-status-' + #status.toUpperCase()")
     public List<CompanyResponse> getCompaniesByJobStatus(String status) {
         return companyRepository.findCompaniesWithJobsByStatus(status)
                 .stream()
@@ -41,6 +47,7 @@ public class CompanyService {
                 .toList();
     }
     @LogExecution
+    @Cacheable(value = CacheNames.COMPANIES, key = "'admin'")
     public List<CompanyResponse> getAllCompaniesForAdmin() {
         return companyRepository.findAll()
                 .stream()
@@ -50,6 +57,7 @@ public class CompanyService {
 
     @Transactional
     @LogExecution
+    @CacheEvict(value = CacheNames.COMPANIES, allEntries = true)
     public CompanyResponse createCompany(CompanyRequest request) {
         Company company = new Company();
 
@@ -62,6 +70,7 @@ public class CompanyService {
 
     @Transactional
     @LogExecution
+    @CacheEvict(value = CacheNames.COMPANIES, allEntries = true)
     public CompanyResponse updateCompany(Long id, CompanyRequest request) {
         Company company = companyRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Company", "id", id));
@@ -73,6 +82,7 @@ public class CompanyService {
 
     @Transactional
     @LogExecution
+    @CacheEvict(value = CacheNames.COMPANIES, allEntries = true)
     public void deleteCompany(Long id) {
         Company company = companyRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Company", "id", id));
