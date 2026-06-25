@@ -29,8 +29,12 @@ public final class SecurityPaths {
     public static final String[] ADMIN_ENDPOINTS = {
             ApiPaths.CONTACTS + "/admin",
             ApiPaths.CONTACTS + "/admin/**",
+
             ApiPaths.COMPANIES + "/admin",
-            ApiPaths.COMPANIES + "/admin/**"
+            ApiPaths.COMPANIES + "/admin/**",
+
+            ApiPaths.USERS + "/admin",
+            ApiPaths.USERS + "/admin/**"
     };
 
     public static final String[] PROTECTED_ENDPOINTS = {
