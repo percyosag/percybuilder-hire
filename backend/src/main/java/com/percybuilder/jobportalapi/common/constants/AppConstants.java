@@ -13,4 +13,7 @@ public final class AppConstants {
     public static final String JWT_HEADER = "Authorization";
     public static final String JWT_TOKEN_PREFIX = "Bearer ";
     public static final long JWT_EXPIRATION_TIME_IN_MILLISECONDS = 24 * 60 * 60 * 1000;
+
+    public static final String APPLICATION_STATUS_SUBMITTED = "SUBMITTED";
+    public static final String APPLICATION_STATUS_WITHDRAWN = "WITHDRAWN";
 }

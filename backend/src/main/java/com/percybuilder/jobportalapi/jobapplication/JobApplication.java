@@ -1,4 +1,4 @@
-package com.percybuilder.jobportalapi.application;
+package com.percybuilder.jobportalapi.jobapplication;
 
 import com.percybuilder.jobportalapi.common.entity.BaseEntity;
 import com.percybuilder.jobportalapi.job.Job;

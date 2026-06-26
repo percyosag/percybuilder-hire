@@ -38,6 +38,8 @@ public final class SecurityPaths {
     };
 
     public static final String[] PROTECTED_ENDPOINTS = {
-            ApiPaths.PROFILE + "/**"
+            ApiPaths.PROFILE + "/**",
+            ApiPaths.APPLICATIONS + "/**",
+            ApiPaths.USERS + "/saved-jobs/**"
     };
 }
