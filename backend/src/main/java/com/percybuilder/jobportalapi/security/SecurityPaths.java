@@ -42,4 +42,8 @@ public final class SecurityPaths {
             ApiPaths.APPLICATIONS + "/**",
             ApiPaths.USERS + "/saved-jobs/**"
     };
+    public static final String[] EMPLOYER_ENDPOINTS = {
+            ApiPaths.JOBS + "/employer",
+            ApiPaths.JOBS + "/employer/**"
+    };
 }
