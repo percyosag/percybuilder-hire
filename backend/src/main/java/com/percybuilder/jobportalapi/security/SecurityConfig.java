@@ -33,6 +33,7 @@ public class SecurityConfig {
                             .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                             .requestMatchers(SecurityPaths.ADMIN_ENDPOINTS).hasRole("ADMIN")
                             .requestMatchers(SecurityPaths.EMPLOYER_ENDPOINTS).hasRole("EMPLOYER")
+                            .requestMatchers(SecurityPaths.CANDIDATE_ENDPOINTS).hasRole("CANDIDATE")
                             .requestMatchers(SecurityPaths.PUBLIC_ENDPOINTS).permitAll()
                             .requestMatchers(SecurityPaths.PROTECTED_ENDPOINTS).authenticated()
                             .anyRequest().denyAll()

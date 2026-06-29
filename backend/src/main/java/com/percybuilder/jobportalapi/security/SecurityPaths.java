@@ -26,6 +26,7 @@ public final class SecurityPaths {
             "/swagger-resources/**",
             "/error"
     };
+
     public static final String[] ADMIN_ENDPOINTS = {
             ApiPaths.CONTACTS + "/admin",
             ApiPaths.CONTACTS + "/admin/**",
@@ -37,13 +38,22 @@ public final class SecurityPaths {
             ApiPaths.USERS + "/admin/**"
     };
 
-    public static final String[] PROTECTED_ENDPOINTS = {
-            ApiPaths.PROFILE + "/**",
-            ApiPaths.APPLICATIONS + "/**",
-            ApiPaths.USERS + "/saved-jobs/**"
-    };
     public static final String[] EMPLOYER_ENDPOINTS = {
             ApiPaths.JOBS + "/employer",
             ApiPaths.JOBS + "/employer/**"
+    };
+
+    public static final String[] CANDIDATE_ENDPOINTS = {
+            ApiPaths.PROFILE + "/candidate",
+            ApiPaths.PROFILE + "/candidate/**",
+
+            ApiPaths.APPLICATIONS,
+            ApiPaths.APPLICATIONS + "/**",
+
+            ApiPaths.USERS + "/saved-jobs",
+            ApiPaths.USERS + "/saved-jobs/**"
+    };
+
+    public static final String[] PROTECTED_ENDPOINTS = {
     };
 }
