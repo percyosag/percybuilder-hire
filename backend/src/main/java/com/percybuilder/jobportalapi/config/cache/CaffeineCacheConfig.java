@@ -2,6 +2,7 @@ package com.percybuilder.jobportalapi.config.cache;
 
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.percybuilder.jobportalapi.common.constants.CacheNames;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.caffeine.CaffeineCache;
 import org.springframework.cache.support.SimpleCacheManager;
@@ -14,13 +15,31 @@ import java.util.List;
 @Configuration
 public class CaffeineCacheConfig {
 
+    @Value("${cache.jobs.ttl-minutes:10}")
+    private long jobsCacheTtlMinutes;
+
+    @Value("${cache.jobs.max-size:5000}")
+    private long jobsCacheMaxSize;
+
+    @Value("${cache.companies.ttl-minutes:10}")
+    private long companiesCacheTtlMinutes;
+
+    @Value("${cache.companies.max-size:500}")
+    private long companiesCacheMaxSize;
+
+    @Value("${cache.roles.ttl-days:1}")
+    private long rolesCacheTtlDays;
+
+    @Value("${cache.roles.max-size:100}")
+    private long rolesCacheMaxSize;
+
     @Bean
     public CacheManager cacheManager() {
         CaffeineCache jobsCache = new CaffeineCache(
                 CacheNames.JOBS,
                 Caffeine.newBuilder()
-                        .maximumSize(5000)
-                        .expireAfterWrite(Duration.ofMinutes(10))
+                        .maximumSize(jobsCacheMaxSize)
+                        .expireAfterWrite(Duration.ofMinutes(jobsCacheTtlMinutes))
                         .recordStats()
                         .build()
         );
@@ -28,8 +47,8 @@ public class CaffeineCacheConfig {
         CaffeineCache companiesCache = new CaffeineCache(
                 CacheNames.COMPANIES,
                 Caffeine.newBuilder()
-                        .maximumSize(500)
-                        .expireAfterWrite(Duration.ofMinutes(10))
+                        .maximumSize(companiesCacheMaxSize)
+                        .expireAfterWrite(Duration.ofMinutes(companiesCacheTtlMinutes))
                         .recordStats()
                         .build()
         );
@@ -37,8 +56,8 @@ public class CaffeineCacheConfig {
         CaffeineCache rolesCache = new CaffeineCache(
                 CacheNames.ROLES,
                 Caffeine.newBuilder()
-                        .maximumSize(100)
-                        .expireAfterWrite(Duration.ofDays(1))
+                        .maximumSize(rolesCacheMaxSize)
+                        .expireAfterWrite(Duration.ofDays(rolesCacheTtlDays))
                         .recordStats()
                         .build()
         );

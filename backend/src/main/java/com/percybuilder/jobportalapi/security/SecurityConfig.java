@@ -1,4 +1,6 @@
 package com.percybuilder.jobportalapi.security;
+import com.percybuilder.jobportalapi.config.cors.AppCorsProperties;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -15,10 +17,10 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
-
+@RequiredArgsConstructor
 @Configuration
 public class SecurityConfig {
-
+    private final AppCorsProperties appCorsProperties;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthenticationFilter jwtAuthenticationFilter) throws Exception {
@@ -53,31 +55,15 @@ public class SecurityConfig {
     }
 
     @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
+    CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.setAllowedOrigins(List.of(
-                "http://localhost:5173",
-                "http://localhost:3000"
-        ));
-
-        configuration.setAllowedMethods(List.of(
-                "GET",
-                "POST",
-                "PUT",
-                "PATCH",
-                "DELETE",
-                "OPTIONS"
-        ));
-
-        configuration.setAllowedHeaders(List.of(
-                "Authorization",
-                "Content-Type",
-                "Accept"
-        ));
-
-        configuration.setAllowCredentials(true);
-        configuration.setMaxAge(3600L);
+        configuration.setAllowedOrigins(appCorsProperties.getAllowedOrigins());
+        configuration.setAllowedMethods(appCorsProperties.getAllowedMethods());
+        configuration.setAllowedHeaders(appCorsProperties.getAllowedHeaders());
+        configuration.setExposedHeaders(appCorsProperties.getExposedHeaders());
+        configuration.setAllowCredentials(appCorsProperties.getAllowCredentials());
+        configuration.setMaxAge(appCorsProperties.getMaxAge());
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);

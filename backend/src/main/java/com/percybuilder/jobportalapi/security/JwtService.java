@@ -1,10 +1,9 @@
 package com.percybuilder.jobportalapi.security;
 
-import com.percybuilder.jobportalapi.common.constants.AppConstants;
+import com.percybuilder.jobportalapi.config.jwt.AppJwtProperties;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.core.env.Environment;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
@@ -15,20 +14,21 @@ import java.util.Date;
 @Service
 public class JwtService {
 
-    private final Environment environment;
+    private final AppJwtProperties appJwtProperties;
 
-    public JwtService(Environment environment) {
-        this.environment = environment;
+    public JwtService(AppJwtProperties appJwtProperties) {
+        this.appJwtProperties = appJwtProperties;
     }
 
     public String generateToken(Authentication authentication) {
         String username = authentication.getName();
 
         Date now = new Date();
-        Date expirationDate = new Date(now.getTime() + AppConstants.JWT_EXPIRATION_TIME_IN_MILLISECONDS);
+        Date expirationDate = new Date(now.getTime() + appJwtProperties.getExpirationMs());
 
         return Jwts.builder()
                 .subject(username)
+                .issuer(appJwtProperties.getIssuer())
                 .issuedAt(now)
                 .expiration(expirationDate)
                 .signWith(getSecretKey())
@@ -38,6 +38,7 @@ public class JwtService {
     public String extractUsername(String token) {
         Claims claims = Jwts.parser()
                 .verifyWith(getSecretKey())
+                .requireIssuer(appJwtProperties.getIssuer())
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
@@ -49,6 +50,7 @@ public class JwtService {
         try {
             Jwts.parser()
                     .verifyWith(getSecretKey())
+                    .requireIssuer(appJwtProperties.getIssuer())
                     .build()
                     .parseSignedClaims(token);
 
@@ -59,11 +61,8 @@ public class JwtService {
     }
 
     private SecretKey getSecretKey() {
-        String secret = environment.getProperty(
-                AppConstants.JWT_SECRET_KEY,
-                AppConstants.JWT_SECRET_DEFAULT_VALUE
+        return Keys.hmacShaKeyFor(
+                appJwtProperties.getSecret().getBytes(StandardCharsets.UTF_8)
         );
-
-        return Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
     }
 }
