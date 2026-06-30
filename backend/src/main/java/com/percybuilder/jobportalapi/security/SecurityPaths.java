@@ -55,5 +55,6 @@ public final class SecurityPaths {
     };
 
     public static final String[] PROTECTED_ENDPOINTS = {
+            ApiPaths.PROFILE + "/me"
     };
 }
