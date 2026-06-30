@@ -19,7 +19,7 @@ public class JobController {
 
     private final JobService jobService;
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<List<JobResponse>> getAllJobs() {
 
         List<JobResponse> jobs = jobService.getAllJobs();

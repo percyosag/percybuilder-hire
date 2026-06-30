@@ -5,6 +5,7 @@ import { contactsApi } from "../api/contactsApi";
 import { authApi } from "../api/authApi";
 import authReducer from "../features/auth/authSlice";
 import { profileApi } from "../api/profileApi";
+import { candidateProfileApi } from "../api/candidateProfileApi";
 
 export const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ export const store = configureStore({
     [contactsApi.reducerPath]: contactsApi.reducer,
     [authApi.reducerPath]: authApi.reducer,
     [profileApi.reducerPath]: profileApi.reducer,
+    [candidateProfileApi.reducerPath]: candidateProfileApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
@@ -21,5 +23,6 @@ export const store = configureStore({
       .concat(companiesApi.middleware)
       .concat(contactsApi.middleware)
       .concat(profileApi.middleware)
-      .concat(authApi.middleware),
+      .concat(authApi.middleware)
+      .concat(candidateProfileApi.middleware),
 });

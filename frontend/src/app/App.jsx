@@ -10,6 +10,8 @@ import CompanyDetailsPage from "../pages/CompanyDetailsPage";
 import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
 import ProfilePage from "../pages/ProfilePage";
+import CandidateRoute from "../components/routes/CandidateRoute";
+import CandidateProfilePage from "../pages/CandidateProfilePage";
 
 function App() {
   return (
@@ -21,9 +23,14 @@ function App() {
         <Route path="/companies" element={<CompaniesPage />} />
         <Route path="/companies/:id" element={<CompanyDetailsPage />} />
         <Route path="/contact" element={<ContactPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/account" element={<ProfilePage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
+
+        <Route element={<CandidateRoute />}>
+          <Route path="/candidate/profile" element={<CandidateProfilePage />} />
+        </Route>
+
         <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>

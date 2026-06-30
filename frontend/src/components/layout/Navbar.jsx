@@ -2,6 +2,8 @@ import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../features/auth/authSlice";
+import { profileApi } from "../../api/profileApi";
+import { candidateProfileApi } from "../../api/candidateProfileApi";
 
 const navLinks = [
   { label: "Home", path: "/" },
@@ -16,8 +18,13 @@ function Navbar() {
 
   const { user, isAuthenticated } = useSelector((state) => state.auth);
 
+  const roles = user?.roles || [];
+  const isCandidate = roles.includes("ROLE_CANDIDATE");
+
   const handleLogout = () => {
     dispatch(logout());
+    dispatch(profileApi.util.resetApiState());
+    dispatch(candidateProfileApi.util.resetApiState());
   };
 
   const closeMenu = () => {
@@ -55,12 +62,23 @@ function Navbar() {
               <span className="max-w-[220px] truncate text-sm font-medium text-slate-600">
                 {user?.username}
               </span>
+
               <NavLink
-                to="/profile"
+                to="/account"
                 className="rounded-full border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:border-blue-500 hover:text-blue-600"
               >
-                Profile
+                Account
               </NavLink>
+
+              {isCandidate && (
+                <NavLink
+                  to="/candidate/profile"
+                  className="rounded-full border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:border-blue-500 hover:text-blue-600"
+                >
+                  Candidate Profile
+                </NavLink>
+              )}
+
               <button
                 type="button"
                 onClick={handleLogout}
@@ -125,13 +143,25 @@ function Navbar() {
                   <p className="truncate px-4 text-sm font-medium text-slate-600">
                     {user?.username}
                   </p>
+
                   <NavLink
-                    to="/profile"
+                    to="/account"
                     onClick={closeMenu}
                     className="rounded-xl border border-slate-300 px-4 py-3 text-sm font-semibold text-slate-700 hover:border-blue-500 hover:text-blue-600"
                   >
-                    Profile
+                    Account
                   </NavLink>
+
+                  {isCandidate && (
+                    <NavLink
+                      to="/candidate/profile"
+                      onClick={closeMenu}
+                      className="rounded-xl border border-slate-300 px-4 py-3 text-sm font-semibold text-slate-700 hover:border-blue-500 hover:text-blue-600"
+                    >
+                      Candidate Profile
+                    </NavLink>
+                  )}
+
                   <button
                     type="button"
                     onClick={() => {

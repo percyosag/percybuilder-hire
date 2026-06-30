@@ -14,6 +14,7 @@ function ProfilePage() {
     error,
   } = useGetCurrentProfileQuery(undefined, {
     skip: !isAuthenticated,
+    refetchOnMountOrArgChange: true,
   });
 
   if (!isAuthenticated) {
@@ -42,11 +43,10 @@ function ProfilePage() {
           My account
         </p>
 
-        <h1 className="mt-3 text-3xl font-bold text-slate-950">Profile</h1>
+        <h1 className="mt-3 text-3xl font-bold text-slate-950">Account</h1>
 
         <p className="mt-2 text-slate-600">
-          This page is protected. It only loads when your JWT token is sent to
-          the backend.
+          View your account identity, login email, and assigned role.
         </p>
 
         <div className="mt-8 grid gap-4 rounded-2xl bg-slate-50 p-6">
