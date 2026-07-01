@@ -12,7 +12,7 @@ function AdminRoute() {
   const isAdmin = roles.includes("ROLE_ADMIN");
 
   if (!isAdmin) {
-    return <Navigate to="/account" replace />;
+    return <Navigate to="/unauthorized" replace />;
   }
 
   return <Outlet />;

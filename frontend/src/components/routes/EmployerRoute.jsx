@@ -12,7 +12,7 @@ function EmployerRoute() {
   const isEmployer = roles.includes("ROLE_EMPLOYER");
 
   if (!isEmployer) {
-    return <Navigate to="/account" replace />;
+    return <Navigate to="/unauthorized" replace />;
   }
 
   return <Outlet />;

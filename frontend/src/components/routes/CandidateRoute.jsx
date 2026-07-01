@@ -12,7 +12,7 @@ function CandidateRoute() {
   const isCandidate = roles.includes("ROLE_CANDIDATE");
 
   if (!isCandidate) {
-    return <Navigate to="/account" replace />;
+    return <Navigate to="/unauthorized" replace />;
   }
 
   return <Outlet />;

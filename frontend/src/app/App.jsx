@@ -21,6 +21,9 @@ import AdminRoute from "../components/routes/AdminRoute";
 import AdminContactsPage from "../pages/AdminContactsPage";
 import AdminCompaniesPage from "../pages/AdminCompaniesPage";
 import AdminUsersPage from "../pages/AdminUsersPage";
+import UnauthorizedPage from "../pages/UnauthorizedPage";
+import DashboardRedirectPage from "../pages/DashboardRedirectPage";
+import AuthenticatedRoute from "../components/routes/AuthenticatedRoute";
 
 function App() {
   return (
@@ -32,10 +35,13 @@ function App() {
         <Route path="/companies" element={<CompaniesPage />} />
         <Route path="/companies/:id" element={<CompanyDetailsPage />} />
         <Route path="/contact" element={<ContactPage />} />
-        <Route path="/account" element={<ProfilePage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
-
+        <Route path="/unauthorized" element={<UnauthorizedPage />} />
+        <Route path="/dashboard" element={<DashboardRedirectPage />} />
+        <Route element={<AuthenticatedRoute />}>
+          <Route path="/account" element={<ProfilePage />} />
+        </Route>
         <Route element={<CandidateRoute />}>
           <Route path="/candidate/profile" element={<CandidateProfilePage />} />
           <Route

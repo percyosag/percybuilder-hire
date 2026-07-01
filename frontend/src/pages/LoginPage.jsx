@@ -42,7 +42,7 @@ function LoginPage() {
         }),
       );
 
-      navigate("/");
+      navigate("/dashboard", { replace: true });
     } catch (error) {
       setFormError(
         error?.data?.message ||
