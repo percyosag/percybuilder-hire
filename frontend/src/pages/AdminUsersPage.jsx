@@ -7,6 +7,13 @@ import {
 import { useGetAdminCompaniesQuery } from "../api/adminCompanyApi";
 import ErrorState from "../components/ui/ErrorState";
 import LoadingState from "../components/ui/LoadingState";
+import DashboardSubnav from "../components/ui/DashboardSubnav";
+
+const adminDashboardLinks = [
+  { label: "Contacts", path: "/admin/contacts" },
+  { label: "Companies", path: "/admin/companies" },
+  { label: "Users", path: "/admin/users" },
+];
 
 function AdminUsersPage() {
   const [foundUser, setFoundUser] = useState(null);
@@ -115,6 +122,7 @@ function AdminUsersPage() {
 
   return (
     <section className="mx-auto max-w-6xl px-6 py-12">
+      <DashboardSubnav links={adminDashboardLinks} />
       <div className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
         <p className="text-sm font-semibold uppercase tracking-[0.25em] text-blue-600">
           Admin dashboard

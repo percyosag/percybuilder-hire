@@ -5,6 +5,13 @@ import {
 } from "../api/savedJobApi";
 import LoadingState from "../components/ui/LoadingState";
 import ErrorState from "../components/ui/ErrorState";
+import DashboardSubnav from "../components/ui/DashboardSubnav";
+
+const candidateDashboardLinks = [
+  { label: "Candidate Profile", path: "/candidate/profile" },
+  { label: "Applications", path: "/candidate/applications" },
+  { label: "Saved Jobs", path: "/candidate/saved-jobs" },
+];
 
 function CandidateSavedJobsPage() {
   const {
@@ -40,6 +47,7 @@ function CandidateSavedJobsPage() {
 
   return (
     <section className="mx-auto max-w-6xl px-6 py-12">
+      <DashboardSubnav links={candidateDashboardLinks} />
       <div className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
         <p className="text-sm font-semibold uppercase tracking-[0.25em] text-blue-600">
           Candidate dashboard
