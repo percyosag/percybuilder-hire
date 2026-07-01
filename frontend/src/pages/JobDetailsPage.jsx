@@ -1,11 +1,65 @@
+import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { useGetJobByIdQuery } from "../api/jobsApi";
+import { useApplyToJobMutation } from "../api/jobApplicationApi";
+import { useSaveJobMutation } from "../api/savedJobApi";
 import ErrorState from "../components/ui/ErrorState";
 import LoadingState from "../components/ui/LoadingState";
 
 function JobDetailsPage() {
   const { id } = useParams();
-  const { data: job, isLoading, isError, error } = useGetJobByIdQuery(id);
+  const [coverLetter, setCoverLetter] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+  const [actionError, setActionError] = useState("");
+
+  const { user, isAuthenticated } = useSelector((state) => state.auth);
+  const roles = user?.roles || [];
+  const isCandidate = roles.includes("ROLE_CANDIDATE");
+
+  const {
+    data: job,
+    isLoading,
+    isError,
+    error,
+    refetch,
+  } = useGetJobByIdQuery(id);
+
+  const [applyToJob, { isLoading: isApplying }] = useApplyToJobMutation();
+  const [saveJob, { isLoading: isSavingJob }] = useSaveJobMutation();
+
+  const handleSaveJob = async () => {
+    setSuccessMessage("");
+    setActionError("");
+
+    try {
+      await saveJob(id).unwrap();
+      setSuccessMessage("Job saved successfully.");
+    } catch (apiError) {
+      setActionError(apiError?.data?.message || "Could not save this job.");
+    }
+  };
+
+  const handleApplyToJob = async (event) => {
+    event.preventDefault();
+    setSuccessMessage("");
+    setActionError("");
+
+    try {
+      await applyToJob({
+        jobId: Number(id),
+        coverLetter: coverLetter.trim(),
+      }).unwrap();
+
+      setCoverLetter("");
+      setSuccessMessage("Application submitted successfully.");
+      refetch();
+    } catch (apiError) {
+      setActionError(
+        apiError?.data?.message || "Could not submit your application.",
+      );
+    }
+  };
 
   if (isLoading) {
     return (
@@ -35,6 +89,7 @@ function JobDetailsPage() {
       </section>
     );
   }
+
   return (
     <section className="mx-auto max-w-5xl px-6 py-12">
       <Link
@@ -103,8 +158,9 @@ function JobDetailsPage() {
               Salary
             </p>
             <p className="mt-2 font-semibold text-slate-950">
-              {job.salaryCurrency} {job.salaryMin?.toLocaleString()} -{" "}
-              {job.salaryMax?.toLocaleString()} / {job.salaryPeriod}
+              {job.salaryMin && job.salaryMax
+                ? `${job.salaryCurrency || ""} ${job.salaryMin.toLocaleString()} - ${job.salaryMax.toLocaleString()} / ${job.salaryPeriod || ""}`
+                : "Salary not listed"}
             </p>
           </div>
 
@@ -144,13 +200,89 @@ function JobDetailsPage() {
         </div>
 
         <div className="mt-10 border-t border-slate-100 pt-6">
-          <button className="rounded-xl bg-blue-600 px-6 py-3 text-sm font-semibold text-white hover:bg-blue-700">
-            Apply later
-          </button>
+          {!isAuthenticated && (
+            <div className="rounded-2xl bg-slate-50 p-6">
+              <h2 className="text-lg font-bold text-slate-950">
+                Interested in this job?
+              </h2>
+              <p className="mt-2 text-sm text-slate-600">
+                Login as a candidate to save this job or submit an application.
+              </p>
+              <Link
+                to="/login"
+                className="mt-4 inline-flex rounded-xl bg-blue-600 px-6 py-3 text-sm font-semibold text-white hover:bg-blue-700"
+              >
+                Login to apply
+              </Link>
+            </div>
+          )}
 
-          <p className="mt-3 text-sm text-slate-500">
-            Application flow will be added after authentication is implemented.
-          </p>
+          {isAuthenticated && !isCandidate && (
+            <div className="rounded-2xl bg-slate-50 p-6 text-sm text-slate-600">
+              Job applications and saved jobs are available for candidate
+              accounts only.
+            </div>
+          )}
+
+          {isAuthenticated && isCandidate && (
+            <div className="rounded-2xl bg-slate-50 p-6">
+              <div className="flex flex-wrap gap-3">
+                <button
+                  type="button"
+                  onClick={handleSaveJob}
+                  disabled={isSavingJob}
+                  className="rounded-xl border border-slate-300 px-6 py-3 text-sm font-semibold text-slate-700 hover:border-blue-500 hover:text-blue-600 disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  {isSavingJob ? "Saving..." : "Save job"}
+                </button>
+              </div>
+
+              <form onSubmit={handleApplyToJob} className="mt-6">
+                <label
+                  htmlFor="coverLetter"
+                  className="text-sm font-semibold text-slate-700"
+                >
+                  Cover letter
+                </label>
+
+                <textarea
+                  id="coverLetter"
+                  value={coverLetter}
+                  onChange={(event) => setCoverLetter(event.target.value)}
+                  rows={5}
+                  maxLength={2000}
+                  placeholder="Write a short message explaining why you are interested in this role."
+                  className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-sm outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+                />
+
+                <button
+                  type="submit"
+                  disabled={isApplying || job.status !== "OPEN"}
+                  className="mt-4 rounded-xl bg-blue-600 px-6 py-3 text-sm font-semibold text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-blue-300"
+                >
+                  {isApplying ? "Submitting..." : "Apply now"}
+                </button>
+
+                {job.status !== "OPEN" && (
+                  <p className="mt-3 text-sm font-medium text-red-600">
+                    This job is not open for applications.
+                  </p>
+                )}
+              </form>
+
+              {successMessage && (
+                <div className="mt-5 rounded-2xl border border-green-200 bg-green-50 px-5 py-4 text-sm font-medium text-green-700">
+                  {successMessage}
+                </div>
+              )}
+
+              {actionError && (
+                <div className="mt-5 rounded-2xl border border-red-200 bg-red-50 px-5 py-4 text-sm font-medium text-red-700">
+                  {actionError}
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </section>

@@ -6,6 +6,8 @@ import { authApi } from "../api/authApi";
 import authReducer from "../features/auth/authSlice";
 import { profileApi } from "../api/profileApi";
 import { candidateProfileApi } from "../api/candidateProfileApi";
+import { jobApplicationApi } from "../api/jobApplicationApi";
+import { savedJobApi } from "../api/savedJobApi";
 
 export const store = configureStore({
   reducer: {
@@ -16,6 +18,8 @@ export const store = configureStore({
     [authApi.reducerPath]: authApi.reducer,
     [profileApi.reducerPath]: profileApi.reducer,
     [candidateProfileApi.reducerPath]: candidateProfileApi.reducer,
+    [jobApplicationApi.reducerPath]: jobApplicationApi.reducer,
+    [savedJobApi.reducerPath]: savedJobApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
@@ -24,5 +28,7 @@ export const store = configureStore({
       .concat(contactsApi.middleware)
       .concat(profileApi.middleware)
       .concat(authApi.middleware)
-      .concat(candidateProfileApi.middleware),
+      .concat(candidateProfileApi.middleware)
+      .concat(jobApplicationApi.middleware)
+      .concat(savedJobApi.middleware),
 });

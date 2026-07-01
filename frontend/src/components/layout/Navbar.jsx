@@ -78,7 +78,22 @@ function Navbar() {
                   Candidate Profile
                 </NavLink>
               )}
-
+              {isCandidate && (
+                <NavLink
+                  to="/candidate/applications"
+                  className="rounded-full border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:border-blue-500 hover:text-blue-600"
+                >
+                  Applications
+                </NavLink>
+              )}
+              {isCandidate && (
+                <NavLink
+                  to="/candidate/saved-jobs"
+                  className="rounded-full border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:border-blue-500 hover:text-blue-600"
+                >
+                  Saved Jobs
+                </NavLink>
+              )}
               <button
                 type="button"
                 onClick={handleLogout}
@@ -161,7 +176,24 @@ function Navbar() {
                       Candidate Profile
                     </NavLink>
                   )}
-
+                  {isCandidate && (
+                    <NavLink
+                      to="/candidate/applications"
+                      onClick={closeMenu}
+                      className="rounded-xl border border-slate-300 px-4 py-3 text-sm font-semibold text-slate-700 hover:border-blue-500 hover:text-blue-600"
+                    >
+                      Applications
+                    </NavLink>
+                  )}
+                  {isCandidate && (
+                    <NavLink
+                      to="/candidate/saved-jobs"
+                      onClick={closeMenu}
+                      className="rounded-xl border border-slate-300 px-4 py-3 text-sm font-semibold text-slate-700 hover:border-blue-500 hover:text-blue-600"
+                    >
+                      Saved Jobs
+                    </NavLink>
+                  )}
                   <button
                     type="button"
                     onClick={() => {

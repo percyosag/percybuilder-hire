@@ -12,6 +12,8 @@ import RegisterPage from "../pages/RegisterPage";
 import ProfilePage from "../pages/ProfilePage";
 import CandidateRoute from "../components/routes/CandidateRoute";
 import CandidateProfilePage from "../pages/CandidateProfilePage";
+import CandidateApplicationsPage from "../pages/CandidateApplicationsPage";
+import CandidateSavedJobsPage from "../pages/CandidateSavedJobsPage";
 
 function App() {
   return (
@@ -29,8 +31,15 @@ function App() {
 
         <Route element={<CandidateRoute />}>
           <Route path="/candidate/profile" element={<CandidateProfilePage />} />
+          <Route
+            path="/candidate/applications"
+            element={<CandidateApplicationsPage />}
+          />
+          <Route
+            path="/candidate/saved-jobs"
+            element={<CandidateSavedJobsPage />}
+          />
         </Route>
-
         <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>
