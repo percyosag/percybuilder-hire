@@ -4,6 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../features/auth/authSlice";
 import { profileApi } from "../../api/profileApi";
 import { candidateProfileApi } from "../../api/candidateProfileApi";
+import { jobApplicationApi } from "../../api/jobApplicationApi";
+import { savedJobApi } from "../../api/savedJobApi";
+import { employerJobApi } from "../../api/employerJobApi";
 
 const navLinks = [
   { label: "Home", path: "/" },
@@ -20,11 +23,18 @@ function Navbar() {
 
   const roles = user?.roles || [];
   const isCandidate = roles.includes("ROLE_CANDIDATE");
+  const isEmployer = roles.includes("ROLE_EMPLOYER");
 
   const handleLogout = () => {
     dispatch(logout());
+
     dispatch(profileApi.util.resetApiState());
     dispatch(candidateProfileApi.util.resetApiState());
+    dispatch(jobApplicationApi.util.resetApiState());
+    dispatch(savedJobApi.util.resetApiState());
+    dispatch(employerJobApi.util.resetApiState());
+
+    closeMenu();
   };
 
   const closeMenu = () => {
@@ -94,6 +104,16 @@ function Navbar() {
                   Saved Jobs
                 </NavLink>
               )}
+
+              {isEmployer && (
+                <NavLink
+                  to="/employer/dashboard"
+                  className="rounded-full border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:border-blue-500 hover:text-blue-600"
+                >
+                  Employer Dashboard
+                </NavLink>
+              )}
+
               <button
                 type="button"
                 onClick={handleLogout}
@@ -192,6 +212,15 @@ function Navbar() {
                       className="rounded-xl border border-slate-300 px-4 py-3 text-sm font-semibold text-slate-700 hover:border-blue-500 hover:text-blue-600"
                     >
                       Saved Jobs
+                    </NavLink>
+                  )}
+                  {isEmployer && (
+                    <NavLink
+                      to="/employer/dashboard"
+                      onClick={closeMenu}
+                      className="rounded-xl border border-slate-300 px-4 py-3 text-sm font-semibold text-slate-700 hover:border-blue-500 hover:text-blue-600"
+                    >
+                      Employer Dashboard
                     </NavLink>
                   )}
                   <button

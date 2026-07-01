@@ -14,6 +14,9 @@ import CandidateRoute from "../components/routes/CandidateRoute";
 import CandidateProfilePage from "../pages/CandidateProfilePage";
 import CandidateApplicationsPage from "../pages/CandidateApplicationsPage";
 import CandidateSavedJobsPage from "../pages/CandidateSavedJobsPage";
+import EmployerRoute from "../components/routes/EmployerRoute";
+import EmployerDashboardPage from "../pages/EmployerDashboardPage";
+import EmployerCreateJobPage from "../pages/EmployerCreateJobPage";
 
 function App() {
   return (
@@ -38,6 +41,16 @@ function App() {
           <Route
             path="/candidate/saved-jobs"
             element={<CandidateSavedJobsPage />}
+          />
+        </Route>
+        <Route element={<EmployerRoute />}>
+          <Route
+            path="/employer/dashboard"
+            element={<EmployerDashboardPage />}
+          />
+          <Route
+            path="/employer/jobs/new"
+            element={<EmployerCreateJobPage />}
           />
         </Route>
         <Route path="*" element={<NotFoundPage />} />

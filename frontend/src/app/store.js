@@ -8,6 +8,7 @@ import { profileApi } from "../api/profileApi";
 import { candidateProfileApi } from "../api/candidateProfileApi";
 import { jobApplicationApi } from "../api/jobApplicationApi";
 import { savedJobApi } from "../api/savedJobApi";
+import { employerJobApi } from "../api/employerJobApi";
 
 export const store = configureStore({
   reducer: {
@@ -20,6 +21,7 @@ export const store = configureStore({
     [candidateProfileApi.reducerPath]: candidateProfileApi.reducer,
     [jobApplicationApi.reducerPath]: jobApplicationApi.reducer,
     [savedJobApi.reducerPath]: savedJobApi.reducer,
+    [employerJobApi.reducerPath]: employerJobApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
@@ -30,5 +32,6 @@ export const store = configureStore({
       .concat(authApi.middleware)
       .concat(candidateProfileApi.middleware)
       .concat(jobApplicationApi.middleware)
-      .concat(savedJobApi.middleware),
+      .concat(savedJobApi.middleware)
+      .concat(employerJobApi.middleware),
 });
