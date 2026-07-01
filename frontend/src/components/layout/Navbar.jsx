@@ -7,6 +7,9 @@ import { candidateProfileApi } from "../../api/candidateProfileApi";
 import { jobApplicationApi } from "../../api/jobApplicationApi";
 import { savedJobApi } from "../../api/savedJobApi";
 import { employerJobApi } from "../../api/employerJobApi";
+import { adminContactApi } from "../../api/adminContactApi";
+import { adminCompanyApi } from "../../api/adminCompanyApi";
+import { adminUserApi } from "../../api/adminUserApi";
 
 const navLinks = [
   { label: "Home", path: "/" },
@@ -24,6 +27,7 @@ function Navbar() {
   const roles = user?.roles || [];
   const isCandidate = roles.includes("ROLE_CANDIDATE");
   const isEmployer = roles.includes("ROLE_EMPLOYER");
+  const isAdmin = roles.includes("ROLE_ADMIN");
 
   const handleLogout = () => {
     dispatch(logout());
@@ -33,7 +37,9 @@ function Navbar() {
     dispatch(jobApplicationApi.util.resetApiState());
     dispatch(savedJobApi.util.resetApiState());
     dispatch(employerJobApi.util.resetApiState());
-
+    dispatch(adminContactApi.util.resetApiState());
+    dispatch(adminCompanyApi.util.resetApiState());
+    dispatch(adminUserApi.util.resetApiState());
     closeMenu();
   };
 
@@ -113,7 +119,31 @@ function Navbar() {
                   Employer Dashboard
                 </NavLink>
               )}
-
+              {isAdmin && (
+                <NavLink
+                  to="/admin/contacts"
+                  onClick={closeMenu}
+                  className="rounded-xl border border-slate-300 px-4 py-3 text-sm font-semibold text-slate-700 hover:border-blue-500 hover:text-blue-600"
+                >
+                  Admin Contacts
+                </NavLink>
+              )}
+              {isAdmin && (
+                <NavLink
+                  to="/admin/companies"
+                  className="rounded-full border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:border-blue-500 hover:text-blue-600"
+                >
+                  Admin Companies
+                </NavLink>
+              )}
+              {isAdmin && (
+                <NavLink
+                  to="/admin/users"
+                  className="rounded-full border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:border-blue-500 hover:text-blue-600"
+                >
+                  Admin Users
+                </NavLink>
+              )}
               <button
                 type="button"
                 onClick={handleLogout}
@@ -221,6 +251,33 @@ function Navbar() {
                       className="rounded-xl border border-slate-300 px-4 py-3 text-sm font-semibold text-slate-700 hover:border-blue-500 hover:text-blue-600"
                     >
                       Employer Dashboard
+                    </NavLink>
+                  )}
+                  {isAdmin && (
+                    <NavLink
+                      to="/admin/contacts"
+                      onClick={closeMenu}
+                      className="rounded-xl border border-slate-300 px-4 py-3 text-sm font-semibold text-slate-700 hover:border-blue-500 hover:text-blue-600"
+                    >
+                      Admin Contacts
+                    </NavLink>
+                  )}
+                  {isAdmin && (
+                    <NavLink
+                      to="/admin/companies"
+                      onClick={closeMenu}
+                      className="rounded-xl border border-slate-300 px-4 py-3 text-sm font-semibold text-slate-700 hover:border-blue-500 hover:text-blue-600"
+                    >
+                      Admin Companies
+                    </NavLink>
+                  )}
+                  {isAdmin && (
+                    <NavLink
+                      to="/admin/users"
+                      onClick={closeMenu}
+                      className="rounded-xl border border-slate-300 px-4 py-3 text-sm font-semibold text-slate-700 hover:border-blue-500 hover:text-blue-600"
+                    >
+                      Admin Users
                     </NavLink>
                   )}
                   <button

@@ -17,6 +17,10 @@ import CandidateSavedJobsPage from "../pages/CandidateSavedJobsPage";
 import EmployerRoute from "../components/routes/EmployerRoute";
 import EmployerDashboardPage from "../pages/EmployerDashboardPage";
 import EmployerCreateJobPage from "../pages/EmployerCreateJobPage";
+import AdminRoute from "../components/routes/AdminRoute";
+import AdminContactsPage from "../pages/AdminContactsPage";
+import AdminCompaniesPage from "../pages/AdminCompaniesPage";
+import AdminUsersPage from "../pages/AdminUsersPage";
 
 function App() {
   return (
@@ -52,6 +56,11 @@ function App() {
             path="/employer/jobs/new"
             element={<EmployerCreateJobPage />}
           />
+        </Route>
+        <Route element={<AdminRoute />}>
+          <Route path="/admin/contacts" element={<AdminContactsPage />} />
+          <Route path="/admin/companies" element={<AdminCompaniesPage />} />
+          <Route path="/admin/users" element={<AdminUsersPage />} />
         </Route>
         <Route path="*" element={<NotFoundPage />} />
       </Route>
