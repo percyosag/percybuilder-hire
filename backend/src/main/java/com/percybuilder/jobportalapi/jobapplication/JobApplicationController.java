@@ -6,13 +6,7 @@ import com.percybuilder.jobportalapi.jobapplication.dto.JobApplicationResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -40,6 +34,37 @@ public class JobApplicationController {
     @GetMapping("/me")
     public ResponseEntity<List<JobApplicationResponse>> getMyApplications() {
         List<JobApplicationResponse> response = jobApplicationService.getMyApplications();
+        return ResponseEntity.ok(response);
+    }
+    @GetMapping("/employer")
+    public ResponseEntity<List<JobApplicationResponse>> getApplicationsForMyCompany() {
+        List<JobApplicationResponse> applications =
+                jobApplicationService.getApplicationsForMyCompany();
+
+        return ResponseEntity.ok(applications);
+    }
+
+    @GetMapping("/employer/jobs/{jobId}")
+    public ResponseEntity<List<JobApplicationResponse>> getApplicationsForMyCompanyJob(
+            @PathVariable Long jobId
+    ) {
+        List<JobApplicationResponse> applications =
+                jobApplicationService.getApplicationsForMyCompanyJob(jobId);
+
+        return ResponseEntity.ok(applications);
+    }
+
+    @PatchMapping("/employer/{applicationId}/status")
+    public ResponseEntity<JobApplicationResponse> updateApplicationStatusForMyCompany(
+            @PathVariable Long applicationId,
+            @RequestParam String status
+    ) {
+        JobApplicationResponse response =
+                jobApplicationService.updateApplicationStatusForMyCompany(
+                        applicationId,
+                        status
+                );
+
         return ResponseEntity.ok(response);
     }
 }

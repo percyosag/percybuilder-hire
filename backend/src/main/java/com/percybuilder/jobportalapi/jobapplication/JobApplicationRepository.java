@@ -12,4 +12,16 @@ public interface JobApplicationRepository extends JpaRepository<JobApplication, 
     Optional<JobApplication> findByCandidateEmailAndJobId(String candidateEmail, Long jobId);
 
     List<JobApplication> findByCandidateEmailOrderByAppliedDateDesc(String candidateEmail);
+
+    List<JobApplication> findByJobCompanyIdOrderByAppliedDateDesc(Long companyId);
+
+    List<JobApplication> findByJobIdAndJobCompanyIdOrderByAppliedDateDesc(
+            Long jobId,
+            Long companyId
+    );
+
+    Optional<JobApplication> findByIdAndJobCompanyId(
+            Long applicationId,
+            Long companyId
+    );
 }

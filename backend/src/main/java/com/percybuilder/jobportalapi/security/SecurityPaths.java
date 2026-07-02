@@ -40,7 +40,10 @@ public final class SecurityPaths {
 
     public static final String[] EMPLOYER_ENDPOINTS = {
             ApiPaths.JOBS + "/employer",
-            ApiPaths.JOBS + "/employer/**"
+            ApiPaths.JOBS + "/employer/**",
+
+            ApiPaths.APPLICATIONS + "/employer",
+            ApiPaths.APPLICATIONS + "/employer/**"
     };
 
     public static final String[] CANDIDATE_ENDPOINTS = {

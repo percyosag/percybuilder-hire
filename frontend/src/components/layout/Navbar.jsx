@@ -332,6 +332,7 @@ import { employerJobApi } from "../../api/employerJobApi";
 import { adminContactApi } from "../../api/adminContactApi";
 import { adminCompanyApi } from "../../api/adminCompanyApi";
 import { adminUserApi } from "../../api/adminUserApi";
+import { employerApplicationApi } from "../../api/employerApplicationApi";
 
 const navLinks = [
   { label: "Home", path: "/" },
@@ -361,6 +362,7 @@ function Navbar() {
     dispatch(adminContactApi.util.resetApiState());
     dispatch(adminCompanyApi.util.resetApiState());
     dispatch(adminUserApi.util.resetApiState());
+    dispatch(employerApplicationApi.util.resetApiState());
 
     closeMenu();
   };

@@ -24,6 +24,7 @@ import AdminUsersPage from "../pages/AdminUsersPage";
 import UnauthorizedPage from "../pages/UnauthorizedPage";
 import DashboardRedirectPage from "../pages/DashboardRedirectPage";
 import AuthenticatedRoute from "../components/routes/AuthenticatedRoute";
+import EmployerApplicationsPage from "../pages/EmployerApplicationsPage";
 
 function App() {
   return (
@@ -61,6 +62,10 @@ function App() {
           <Route
             path="/employer/jobs/new"
             element={<EmployerCreateJobPage />}
+          />
+          <Route
+            path="/employer/applications"
+            element={<EmployerApplicationsPage />}
           />
         </Route>
         <Route element={<AdminRoute />}>

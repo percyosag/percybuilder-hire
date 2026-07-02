@@ -236,6 +236,10 @@ function JobDetailsPage() {
                   {isSavingJob ? "Saving..." : "Save job"}
                 </button>
               </div>
+              <div className="mt-5 rounded-2xl border border-blue-100 bg-blue-50 px-5 py-4 text-sm text-blue-700">
+                Complete your candidate profile and upload your resume before
+                applying.
+              </div>
 
               <form onSubmit={handleApplyToJob} className="mt-6">
                 <label

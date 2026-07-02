@@ -56,12 +56,21 @@ function EmployerDashboardPage() {
             </p>
           </div>
 
-          <Link
-            to="/employer/jobs/new"
-            className="rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white hover:bg-blue-700"
-          >
-            Post a job
-          </Link>
+          <div className="flex flex-wrap gap-3">
+            <Link
+              to="/employer/applications"
+              className="rounded-xl border border-slate-300 px-5 py-3 text-sm font-semibold text-slate-700 hover:border-blue-500 hover:text-blue-600"
+            >
+              View applications
+            </Link>
+
+            <Link
+              to="/employer/jobs/new"
+              className="rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white hover:bg-blue-700"
+            >
+              Post a job
+            </Link>
+          </div>
         </div>
 
         {jobs.length === 0 ? (
