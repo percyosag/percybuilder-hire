@@ -468,31 +468,47 @@ Production deployment settings using environment variables.
 
 ## Screenshots
 
-Add screenshots here before publishing the repository.
+### Home Page
 
-Suggested screenshots:
-
-- Home page
-- Jobs page
-- Job details page
-- Candidate profile page
-- Candidate applications page
-- Employer dashboard
-- Employer applications page
-- Admin contacts page
-- Admin companies page
-- Admin users page
-
-Example:
-
-```md
 ![Home Page](screenshots/home.png)
+
+### Jobs Page
+
+![Jobs Page](screenshots/jobs.png)
+
+### Job Details Page
+
+![Job Details Page](screenshots/job-details.png)
+
+### Candidate Profile
+
+![Candidate Profile](screenshots/candidate-profile.png)
+
+### Candidate Applications
+
+![Candidate Applications](screenshots/candidate-applications.png)
+
+### Employer Dashboard
+
 ![Employer Dashboard](screenshots/employer-dashboard.png)
+
+### Employer Applications
+
+![Employer Applications](screenshots/employer-applications.png)
+
+### Admin Contacts
+
+![Admin Contacts](screenshots/admin-contacts.png)
+
+### Admin Companies
+
+![Admin Companies](screenshots/admin-companies.png)
+
+### Admin Users
+
 ![Admin Users](screenshots/admin-users.png)
+
 ```
-
----
-
 ## Future Improvements
 
 Possible future enhancements:
@@ -512,5 +528,6 @@ Possible future enhancements:
 
 Percy Osunde
 
-Full-Stack Software Developer  
+Full-Stack Software Developer
 React | Spring Boot | Node.js | PostgreSQL | Docker | AWS Basics
+```
