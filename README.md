@@ -159,6 +159,168 @@ Admins can manage:
 
 ---
 
+## Architecture Diagrams
+
+### System Architecture
+
+```mermaid
+flowchart LR
+    user[User Browser] --> frontend[React Frontend<br/>Vite + Redux Toolkit + RTK Query]
+
+    frontend --> api[Spring Boot REST API<br/>Java 21]
+
+    api --> security[Spring Security<br/>JWT Authentication<br/>Role-Based Access Control]
+
+    api --> db[(PostgreSQL Database)]
+
+    api --> cache[Caffeine Cache]
+
+    api --> docs[Swagger / OpenAPI]
+
+    api --> logging[AOP Logging<br/>Global Exception Handling]
+
+    docker[Docker Compose] --> db
+
+    subgraph Roles
+        candidate[Candidate]
+        employer[Employer]
+        admin[Admin]
+    end
+
+    candidate --> frontend
+    employer --> frontend
+    admin --> frontend
+```
+
+### Database Design / ERD
+
+```mermaid
+erDiagram
+    ROLE ||--o{ APP_USER : has
+    COMPANY ||--o{ APP_USER : employs
+    COMPANY ||--o{ JOB : posts
+    APP_USER ||--o{ JOB_APPLICATION : submits
+    JOB ||--o{ JOB_APPLICATION : receives
+    APP_USER ||--|| CANDIDATE_PROFILE : owns
+    APP_USER }o--o{ JOB : saves
+
+    ROLE {
+        Long id
+        String name
+    }
+
+    APP_USER {
+        Long id
+        String fullName
+        String email
+        String passwordHash
+        String mobileNumber
+        Boolean enabled
+        Long roleId
+        Long companyId
+    }
+
+    COMPANY {
+        Long id
+        String name
+        String industry
+        String companySize
+        Double rating
+        String location
+        Integer foundedYear
+        String website
+    }
+
+    JOB {
+        Long id
+        String title
+        String location
+        String workType
+        String jobType
+        String status
+        Integer applicationsCount
+        Long companyId
+    }
+
+    JOB_APPLICATION {
+        Long id
+        Long candidateId
+        Long jobId
+        LocalDate appliedDate
+        String status
+        String coverLetter
+    }
+
+    CANDIDATE_PROFILE {
+        Long id
+        Long userId
+        String jobTitle
+        String location
+        String experienceLevel
+        String professionalBio
+        Binary resume
+        Binary profilePicture
+    }
+
+    CONTACT {
+        Long id
+        String fullName
+        String email
+        String subject
+        String message
+        String status
+    }
+```
+
+> Note: The `contacts` table is independent because contact messages can be submitted by public visitors without requiring authentication.
+
+### Candidate Application Workflow
+
+```mermaid
+sequenceDiagram
+    actor Candidate
+    participant Frontend as React Frontend
+    participant API as Spring Boot API
+    participant Profile as Candidate Profile Service
+    participant AppService as Job Application Service
+    participant DB as PostgreSQL
+    actor Employer
+
+    Candidate->>Frontend: Clicks Apply on job details page
+    Frontend->>API: POST /api/v1/applications
+
+    API->>Profile: Check candidate profile and resume
+    Profile->>DB: Find profile by candidate email
+    DB-->>Profile: Candidate profile data
+
+    alt Profile or resume missing
+        Profile-->>API: Validation error
+        API-->>Frontend: 400 Bad Request
+        Frontend-->>Candidate: Show profile/resume required message
+    else Profile and resume complete
+        API->>AppService: Create job application
+        AppService->>DB: Save application with SUBMITTED status
+        DB-->>AppService: Application saved
+        AppService-->>API: Application response
+        API-->>Frontend: 201 Created
+        Frontend-->>Candidate: Application submitted
+    end
+
+    Employer->>Frontend: Opens employer applications page
+    Frontend->>API: GET /api/v1/applications/employer
+    API->>DB: Load applications for employer company jobs
+    DB-->>API: Matching applications
+    API-->>Frontend: Applications list
+    Frontend-->>Employer: Show candidate applications
+
+    Employer->>Frontend: Updates application status
+    Frontend->>API: PATCH /api/v1/applications/employer/{id}/status
+    API->>DB: Update status to REVIEWED / SHORTLISTED / REJECTED
+    DB-->>API: Updated application
+    API-->>Frontend: Updated response
+    Frontend-->>Employer: Show updated status
+```
+
 ## API Overview
 
 ### Auth
@@ -508,7 +670,6 @@ Production deployment settings using environment variables.
 
 ![Admin Users](screenshots/admin-users.png)
 
-```
 ## Future Improvements
 
 Possible future enhancements:
@@ -530,4 +691,3 @@ Percy Osunde
 
 Full-Stack Software Developer
 React | Spring Boot | Node.js | PostgreSQL | Docker | AWS Basics
-```
