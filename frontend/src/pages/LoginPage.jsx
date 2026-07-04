@@ -30,7 +30,24 @@ function LoginPage() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setFormError("");
+    const email = formData.username.trim();
+    const password = formData.password.trim();
+
+    if (!email && !password) {
+      setFormError("Please enter your email and password.");
+      return;
+    }
+
+    if (!email) {
+      setFormError("Please enter your email.");
+      return;
+    }
+
+    if (!password) {
+      setFormError("Please enter your password.");
+      return;
+    }
+
 
     try {
       const response = await login(formData).unwrap();
