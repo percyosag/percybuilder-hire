@@ -10,6 +10,52 @@ const initialFormState = {
   role: "ROLE_CANDIDATE",
 };
 
+const validateRegisterForm = (formData) => {
+  const fullName = formData.fullName.trim();
+  const email = formData.email.trim();
+  const password = formData.password;
+  const mobileNumber = formData.mobileNumber.trim();
+  const phoneDigits = mobileNumber.replace(/\D/g, "");
+
+  if (!fullName) {
+    return "Full name is required.";
+  }
+
+  if (fullName.length < 2) {
+    return "Full name must be at least 2 characters.";
+  }
+
+  if (!email) {
+    return "Email is required.";
+  }
+
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return "Please enter a valid email address.";
+  }
+
+  if (!password) {
+    return "Password is required.";
+  }
+
+  if (password.length < 8) {
+    return "Password must be at least 8 characters.";
+  }
+
+  if (!mobileNumber) {
+    return "Mobile number is required.";
+  }
+
+  if (phoneDigits.length < 10 || phoneDigits.length > 15) {
+    return "Mobile number must contain 10 to 15 digits.";
+  }
+
+  if (!["ROLE_CANDIDATE", "ROLE_EMPLOYER"].includes(formData.role)) {
+    return "Please select a valid account type.";
+  }
+
+  return "";
+};
+
 function RegisterPage() {
   const [formData, setFormData] = useState(initialFormState);
   const [formError, setFormError] = useState("");
@@ -35,8 +81,22 @@ function RegisterPage() {
     setFormError("");
     setSuccessMessage("");
 
+    const validationError = validateRegisterForm(formData);
+
+    if (validationError) {
+      setFormError(validationError);
+      return;
+    }
+
+    const registerPayload = {
+      ...formData,
+      fullName: formData.fullName.trim(),
+      email: formData.email.trim().toLowerCase(),
+      mobileNumber: formData.mobileNumber.trim(),
+    };
+
     try {
-      await register(formData).unwrap();
+      await register(registerPayload).unwrap();
 
       setSuccessMessage(
         "Account created successfully. Redirecting to login...",
@@ -95,6 +155,8 @@ function RegisterPage() {
               id="fullName"
               name="fullName"
               type="text"
+              required
+              minLength={2}
               value={formData.fullName}
               onChange={handleChange}
               className="mt-2 w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
@@ -114,6 +176,7 @@ function RegisterPage() {
               id="email"
               name="email"
               type="email"
+              required
               value={formData.email}
               onChange={handleChange}
               className="mt-2 w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
@@ -133,6 +196,8 @@ function RegisterPage() {
               id="password"
               name="password"
               type="password"
+              required
+              minLength={8}
               value={formData.password}
               onChange={handleChange}
               className="mt-2 w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
@@ -152,6 +217,7 @@ function RegisterPage() {
               id="mobileNumber"
               name="mobileNumber"
               type="tel"
+              required
               value={formData.mobileNumber}
               onChange={handleChange}
               className="mt-2 w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
