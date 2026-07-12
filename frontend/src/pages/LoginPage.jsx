@@ -12,6 +12,7 @@ const initialFormState = {
 function LoginPage() {
   const [formData, setFormData] = useState(initialFormState);
   const [formError, setFormError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [login, { isLoading }] = useLoginMutation();
   const dispatch = useDispatch();
@@ -47,7 +48,7 @@ function LoginPage() {
       setFormError("Please enter your password.");
       return;
     }
-
+    setIsSubmitting(true);
     try {
       const response = await login(formData).unwrap();
 
@@ -64,9 +65,10 @@ function LoginPage() {
         error?.data?.message ||
           "Login failed. Please check your email and password.",
       );
+      setIsSubmitting(false);
     }
   };
-
+  const isLoginProcessing = isSubmitting || isLoading;
   return (
     <section className="mx-auto flex min-h-[75vh] max-w-6xl items-center justify-center px-6 py-12">
       <div className="w-full max-w-md rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
@@ -103,7 +105,7 @@ function LoginPage() {
               id="username"
               name="username"
               type="email"
-              disabled={isLoading}
+              disabled={isLoginProcessing}
               value={formData.username}
               onChange={handleChange}
               className="mt-2 w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-100 disabled:bg-slate-100"
@@ -123,7 +125,7 @@ function LoginPage() {
               id="password"
               name="password"
               type="password"
-              disabled={isLoading}
+              disabled={isLoginProcessing}
               value={formData.password}
               onChange={handleChange}
               className="mt-2 w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-100 disabled:bg-slate-100"
@@ -133,14 +135,14 @@ function LoginPage() {
 
           <button
             type="submit"
-            disabled={isLoading}
+            disabled={isLoginProcessing}
             className="flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-6 py-3 text-sm font-semibold text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-blue-300"
           >
-            {isLoading && (
+            {isLoginProcessing && (
               <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
             )}
 
-            {isLoading ? "Logging in..." : "Login"}
+            {isLoginProcessing ? "Logging in..." : "Login"}
           </button>
         </form>
 
