@@ -48,7 +48,6 @@ function LoginPage() {
       return;
     }
 
-
     try {
       const response = await login(formData).unwrap();
 
@@ -104,9 +103,10 @@ function LoginPage() {
               id="username"
               name="username"
               type="email"
+              disabled={isLoading}
               value={formData.username}
               onChange={handleChange}
-              className="mt-2 w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+              className="mt-2 w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-100 disabled:bg-slate-100"
               placeholder="candidate@percybuilderhire.com"
             />
           </div>
@@ -123,9 +123,10 @@ function LoginPage() {
               id="password"
               name="password"
               type="password"
+              disabled={isLoading}
               value={formData.password}
               onChange={handleChange}
-              className="mt-2 w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+              className="mt-2 w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-100 disabled:bg-slate-100"
               placeholder="Enter password"
             />
           </div>
@@ -133,8 +134,12 @@ function LoginPage() {
           <button
             type="submit"
             disabled={isLoading}
-            className="rounded-xl bg-blue-600 px-6 py-3 text-sm font-semibold text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-blue-300"
+            className="flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-6 py-3 text-sm font-semibold text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-blue-300"
           >
+            {isLoading && (
+              <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+            )}
+
             {isLoading ? "Logging in..." : "Login"}
           </button>
         </form>
